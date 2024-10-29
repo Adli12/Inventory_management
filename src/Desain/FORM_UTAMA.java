@@ -97,7 +97,7 @@ public class FORM_UTAMA extends javax.swing.JFrame {
         jLabel8.setText("Intelligent ");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 130, -1));
 
-        dashboard.setBackground(new java.awt.Color(102, 102, 255));
+        dashboard.setBackground(new java.awt.Color(255, 102, 153));
         dashboard.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         dashboard.setForeground(new java.awt.Color(255, 255, 255));
         dashboard.setText("Dashboard  ->");

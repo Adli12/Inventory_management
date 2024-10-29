@@ -47,13 +47,14 @@ public class FROM_HOME extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(252, 151, 176));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setBackground(new java.awt.Color(255, 204, 204));
-        jLabel1.setFont(new java.awt.Font("Showcard Gothic", 1, 24)); // NOI18N
+        jLabel1.setBackground(new java.awt.Color(255, 51, 102));
+        jLabel1.setFont(new java.awt.Font("Showcard Gothic", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 0, 102));
         jLabel1.setText("INVENTARIS BARANG");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(241, 45, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 204));
 
@@ -172,7 +173,7 @@ public class FROM_HOME extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jPanel1.add(logo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, -10, 130, 100));
+        jPanel1.add(logo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, -10, 130, 100));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
