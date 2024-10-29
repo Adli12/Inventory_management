@@ -150,7 +150,7 @@ public class FORM_UTAMA extends javax.swing.JFrame {
     }//GEN-LAST:event_dashboardMouseExited
 
     private void dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardActionPerformed
-       new FROM_HOME().show();
+       new FORM_HOME().show();
        this.dispose();
     }//GEN-LAST:event_dashboardActionPerformed
 

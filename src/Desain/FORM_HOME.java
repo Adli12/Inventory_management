@@ -1,0 +1,499 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+
+package Desain;
+import java.sql.*;
+import java.text.NumberFormat;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author user
+ */
+public class FORM_HOME extends javax.swing.JFrame {
+    Connection conn = koneksi.koneksi.koneksi_database();
+    Statement stat;
+    String sql;
+    ResultSet rs;
+    
+    /** Creates new form FROM_HOME */
+    public FORM_HOME() {
+        initComponents();
+        setLocationRelativeTo(this);
+        tampil();
+    }
+    
+    public static String formatRupiah(double amount) {
+        // Buat NumberFormat untuk format Rupiah
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+        return numberFormat.format(amount);
+    }
+
+    public void tampil() {
+    try {
+        stat = conn.createStatement();
+        String cbvalue = cb_barang.getSelectedItem().toString();
+        String orderBy = "";
+
+        if (cbvalue.equals("Id Barang")) {
+            orderBy = "id_barang";
+        } else if (cbvalue.equals("Nama Barang")) {
+            orderBy = "nama_barang";
+        }
+
+        String sql = "SELECT * FROM tbl_barang ORDER BY id_barang ASC";
+        rs = stat.executeQuery(sql); // Use Statement instead of PreparedStatement
+
+        tbl_barang.setModel(new DefaultTableModel());
+
+        DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("NO");
+        tbl.addColumn("ID BARANG");
+        tbl.addColumn("NAMA BARANG");
+        tbl.addColumn("MERK");
+        tbl.addColumn("STOK");
+        tbl.addColumn("HARGA");
+        tbl.addColumn("TGL MASUK");
+        tbl.addColumn("TGL EXP");
+
+        tbl_barang.setModel(tbl);
+        int i = 0;
+        while (rs.next()) {
+            i++;
+            tbl.addRow(new Object[]{
+                i,
+                rs.getString("id_barang"),
+                rs.getString("nama_barang"),
+                rs.getString("merk"),
+                rs.getString("stok"),
+                rs.getString("harga"),
+                rs.getString("tgl_masuk"),
+                rs.getString("exp"),
+            });
+        }
+        tbl_barang.setModel(tbl);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    }
+}
+
+    public void cari(String keyword) {
+    try {
+        String cbvalue = cb_barang.getSelectedItem().toString();
+        String searchColumn = "";
+
+        if (cbvalue.equals("Id Barang")) {
+            searchColumn = "id_barang";
+        } else if (cbvalue.equals("Nama Barang")) {
+            searchColumn = "nama_barang";
+        }
+
+        String sql = "SELECT * FROM tbl_barang WHERE " + searchColumn + " LIKE '%" + keyword + "%' ORDER BY " + searchColumn + " ASC";
+        rs = stat.executeQuery(sql); // Use Statement instead of PreparedStatement
+
+        tbl_barang.setModel(new DefaultTableModel());
+
+        DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("No");
+        tbl.addColumn("Id Barang");
+        tbl.addColumn("Nama Barang");
+        tbl.addColumn("Merk");
+        tbl.addColumn("Stok");
+        tbl.addColumn("Harga");
+        tbl.addColumn("Tanggal Masuk");
+        tbl.addColumn("Expired");
+
+        tbl_barang.setModel(tbl);
+        int i = 0;
+
+        while (rs.next()) {
+            i++;
+            tbl.addRow(new Object[]{
+                i,
+                rs.getString("id_barang"),
+                rs.getString("nama_barang"),
+                rs.getString("merk"),
+                rs.getString("stok"),
+                rs.getString("harga"),
+                rs.getString("tgl_masuk"),
+                rs.getString("exp"),
+            });
+        }
+        tbl_barang.setModel(tbl);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    }
+}
+    
+    public void search(){
+        try {
+            rs = stat.executeQuery("select * from tbl_barang where id_barang like '%" 
+                    +  txt_search.getText() + "%' order by id_barang");
+            
+            while(rs.next()){
+                 String namaBarang = rs.getString("nama_barang");
+                 String stok = rs.getString("stok");
+                 String tanggal = rs.getString("tgl_masuk");
+                 String harga = rs.getString("harga");
+                 txt_nama.setText(namaBarang);
+                 txt_stok.setText(stok);
+                 txt_exp.setText(tanggal);
+                 txt_harga.setText(harga);
+            }
+        } catch (Exception e) {
+        }
+    }
+     
+    
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jTextField2 = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        cb_barang = new javax.swing.JComboBox<>();
+        txt_search = new javax.swing.JTextField();
+        txt_stok = new javax.swing.JLabel();
+        txt_nama = new javax.swing.JLabel();
+        txt_harga = new javax.swing.JLabel();
+        txt_exp = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_barang = new javax.swing.JTable();
+        logo1 = new gambar.logo();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(252, 151, 176));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setBackground(new java.awt.Color(255, 51, 102));
+        jLabel1.setFont(new java.awt.Font("Showcard Gothic", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 0, 102));
+        jLabel1.setText("INVENTARIS BARANG");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, -1, -1));
+
+        jPanel2.setBackground(new java.awt.Color(255, 204, 204));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel3.setText("Cari barang :");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel4.setText("Nama barang :");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel5.setText("Stok barang :");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel6.setText("Exp.");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel7.setText("Harga :");
+
+        cb_barang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id Barang", "Nama Barang", " ", " ", " " }));
+
+        txt_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_searchActionPerformed(evt);
+            }
+        });
+        txt_search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_searchKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_searchKeyTyped(evt);
+            }
+        });
+
+        txt_stok.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        txt_stok.setText("-");
+
+        txt_nama.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        txt_nama.setText("-");
+
+        txt_harga.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        txt_harga.setText("-");
+
+        txt_exp.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        txt_exp.setText("-");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_nama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cb_barang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_stok, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_exp, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(209, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_harga, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5)
+                    .addComponent(cb_barang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_stok))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txt_harga))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6)
+                    .addComponent(txt_nama)
+                    .addComponent(txt_exp))
+                .addContainerGap(66, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+
+        tbl_barang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "NO", "ID BARANG", "NAMA BARANG", "MERK", "STOK", "HARGA", "TGL MASUK", "TGL EXP"
+            }
+        ));
+        tbl_barang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_barangMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_barang);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, 740, 130));
+
+        javax.swing.GroupLayout logo1Layout = new javax.swing.GroupLayout(logo1);
+        logo1.setLayout(logo1Layout);
+        logo1Layout.setHorizontalGroup(
+            logo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        logo1Layout.setVerticalGroup(
+            logo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(logo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, -10, 130, 100));
+
+        jMenu1.setText("Data Barang");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Kasir");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Report");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
+        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu3ActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(jMenu3);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+      
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
+    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
+       
+    }//GEN-LAST:event_jMenu3ActionPerformed
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        new FORM_DATA().show();
+    }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        new FORM_KASIR().show();
+    }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        new FORM_REPORT().show();
+    }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void txt_searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_searchKeyTyped
+//      cari(txt_search.getText());
+    }//GEN-LAST:event_txt_searchKeyTyped
+
+    private void tbl_barangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_barangMouseClicked
+         int row = tbl_barang.rowAtPoint(evt.getPoint());
+
+//        txt_id.setText(tbl_barang.getValueAt(row, 1).toString());
+        txt_nama.setText(tbl_barang.getValueAt(row, 2).toString());
+//        txt_merk.setText(tbl_barang.getValueAt(row, 3).toString());
+        txt_stok.setText(tbl_barang.getValueAt(row, 4).toString());
+        txt_harga.setText(formatRupiah(Integer.valueOf(tbl_barang.getValueAt(row, 5).toString())));
+        txt_exp.setText(tbl_barang.getValueAt(row, 7).toString());
+    }//GEN-LAST:event_tbl_barangMouseClicked
+
+    private void txt_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_searchKeyReleased
+          search();
+        cari(txt_search.getText());
+    }//GEN-LAST:event_txt_searchKeyReleased
+
+    private void txt_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_searchActionPerformed
+      
+    }//GEN-LAST:event_txt_searchActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FORM_HOME.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FORM_HOME.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FORM_HOME.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FORM_HOME.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FORM_HOME().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cb_barang;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField2;
+    private gambar.logo logo1;
+    private javax.swing.JTable tbl_barang;
+    private javax.swing.JLabel txt_exp;
+    private javax.swing.JLabel txt_harga;
+    private javax.swing.JLabel txt_nama;
+    private javax.swing.JTextField txt_search;
+    private javax.swing.JLabel txt_stok;
+    // End of variables declaration//GEN-END:variables
+
+}
